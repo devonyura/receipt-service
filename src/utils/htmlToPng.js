@@ -11,7 +11,7 @@ exports.renderHtmlToPng = async (htmlContent) => {
     const page = await browser.newPage();
 
     // Set viewport untuk receipt (80mm width)
-    await page.setViewport({ width: 330, height: 600 });
+    await page.setViewport({ width: 380, height: 600 });
 
     await page.setContent(htmlContent, { waitUntil: "networkidle0" });
 
