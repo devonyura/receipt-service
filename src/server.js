@@ -1,10 +1,11 @@
 const express = require("express");
+const cors = require("cors");
 const dotenv = require("dotenv");
 
-const cors = require("cors");
-require("dotenv").config();
+dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 // ✅ whitelist origin
 const allowedOrigins = [
@@ -32,16 +33,8 @@ app.use(
   }),
 );
 
-// 🔥 PENTING: handle preflight
-app.options("*", cors());
-
-app.use(express.json({ limit: "50mb" }));
-
-dotenv.config();
-
-const PORT = process.env.PORT || 3000;
-
 // Middleware
+app.options(/.*/, cors());
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 

@@ -11,11 +11,24 @@ exports.renderHtmlToPng = async (htmlContent) => {
     const page = await browser.newPage();
 
     // Set viewport untuk receipt (80mm width)
-    await page.setViewport({ width: 330, height: 680 });
+    await page.setViewport({ width: 330, height: 600 });
 
     await page.setContent(htmlContent, { waitUntil: "networkidle0" });
 
-    const screenshot = await page.screenshot({ type: "png" });
+    await page.evaluate(() => {
+      document.body.style.height = "auto";
+    });
+
+    await page.addStyleTag({
+      content: `
+    body {
+      margin: 0;
+      padding: 5px;
+    }
+  `,
+    });
+
+    const screenshot = await page.screenshot({ type: "png", fullPage: true });
 
     return screenshot;
   } finally {
