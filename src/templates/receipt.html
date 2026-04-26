@@ -12,7 +12,7 @@
         padding: 10px;
         font-size: 18px;
         background: #fff;
-        font-weight: 600;
+        font-weight: 500;
       }
 
       .center {
@@ -41,18 +41,18 @@
 
       /* 🔥 FIX ALIGNMENT */
       .col-name {
-        width: 50%;
+        width: 40%;
       }
       .col-qty {
         width: 10%;
         text-align: right;
       }
       .col-price {
-        width: 20%;
+        width: 25%;
         text-align: right;
       }
       .col-total {
-        width: 20%;
+        width: 25%;
         text-align: right;
       }
 
@@ -62,11 +62,11 @@
 
       .footer {
         text-align: center;
-        font-size: 12px;
+        font-size: 13px;
         margin-top: 10px;
       }
       .logo {
-        width: 120px;
+        width: 230px;
         margin-bottom: 5px;
       }
     </style>
@@ -78,7 +78,6 @@
       <div class="center">
         <img src="{{logo}}" class="logo" />
       </div>
-      <div style="font-size: 19px">Alamat</div>
       <div style="font-size: 19px">{{storeAddress}}</div>
     </div>
 
@@ -121,7 +120,7 @@
     <table>
       <tr class="bold">
         <td>Total</td>
-        <td class="right">Rp {{total}}</td>
+        <td class="right">{{total}}</td>
       </tr>
     </table>
     <div class="line"></div>
@@ -129,12 +128,12 @@
     <table>
       <tr>
         <td>Tunai</td>
-        <td class="right">Rp {{cash}}</td>
+        <td class="right">{{cash}}</td>
       </tr>
 
       <tr>
         <td>Kembalian</td>
-        <td class="right">Rp {{change}}</td>
+        <td class="right">{{change}}</td>
       </tr>
     </table>
 
