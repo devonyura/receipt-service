@@ -4,19 +4,20 @@ const path = require("path");
 
 exports.generateReceipt = async (req, res) => {
   try {
-    const { transactions, transaction_details } = req.body;
+    const { transactions, transaction_details, reseller } = req.body;
 
     // Validasi bentuk data
     if (!transactions || !transaction_details) {
       return res
         .status(400)
-        .json({ error: "transactions & transactions_details wajib ada" });
+        .json({ error: "transactions & transaction_details wajib ada" });
     }
 
     // TRANSFORM DATA -> HTML FRIENDLY
     const mappedData = mapTransactionToTemplate(
       transactions,
       transaction_details,
+      reseller,
     );
 
     // Render HTML dari template
@@ -42,7 +43,7 @@ exports.generateReceipt = async (req, res) => {
 };
 
 // Helper:map transaction to template
-function mapTransactionToTemplate(trx, details) {
+function mapTransactionToTemplate(trx, details, reseller) {
   // FOrmat tanggal
   const date = new Date(trx.date_time).toLocaleString("id-ID");
 
@@ -71,6 +72,32 @@ function mapTransactionToTemplate(trx, details) {
     .join("");
 
   let customerSection = "";
+
+  // Build Reseller
+  let resellerSection = "";
+
+  if (trx.reseller_id && reseller) {
+    resellerSection = `
+    <div class="line"></div>
+    <div class="section-title">RESELLER</div>
+    <table>
+      <tr>
+        <td>Nama</td>
+        <td class="right">${reseller.name || "-"}</td>
+      </tr>
+      <tr>
+        <td>HP</td>
+        <td class="right">${reseller.phone || "-"}</td>
+      </tr>
+      <tr>
+        <td colspan="2">Alamat:</td>
+      </tr>
+      <tr>
+        <td colspan="2">${reseller.address || "-"}</td>
+      </tr>
+    </table>
+  `;
+  }
 
   if (trx.is_online_order === "1") {
     customerSection = `
@@ -114,6 +141,7 @@ function mapTransactionToTemplate(trx, details) {
     cashier: trx.username,
     customerSection,
     logo: logoBase64,
+    resellerSection,
   };
 }
 
